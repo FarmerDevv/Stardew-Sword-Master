@@ -42,13 +42,52 @@ Kendi silahlarını detaylı şekilde oluşturabilir, düzenleyebilir ve oyununa
 - 🐧 [Linux – VirusTotal](https://www.virustotal.com/gui/file/075810940c7f97a9650319b43d33537832da445b9bd10a49a17b26a31f68e064)
 
 ✅ Güvenlidir.
-🌾 Stardew Sword Master – Sword Crafting Center
-🛡️ "Craft your own sword, protect your village, become a legend!"
+# 🌾 Stardew Sword Master – Sword Crafting Hub
+
+> 🛡️ *"Craft your own sword, protect your village, become a legend!"*
+
+---
+
+## 🇺🇸 English – About
+
+🧙‍♂️ **Creator:** FarmerDev  
+🌐 [NexusMods Page](https://www.nexusmods.com/stardewvalley/mods/34856)  
+🔐 [VirusTotal Results](#-security)
+
+**Stardew Sword Master** is an independent sword crafting hub developed for Stardew Valley.  
+You can create, customize, and easily integrate your own weapons into the game!
+
+---
+
+## 🧰 Features
+
+- ⚔️ Create and customize swords  
+- 🖼️ Visual preview (16x16 px check)  
+- 📦 Automatic generation of `content.json` and `manifest.json`  
+- 🧪 Test panel and error warning system  
+- 🚨 Detection of faulty or missing data
+
+---
+
+## 💾 Installation
+
+1. Make sure [SMAPI](https://smapi.io/) is installed.  
+2. Download and run the program.  
+3. Create your sword and place the files into the `StardewValley/Mods` folder.  
+4. Launch the game and test!
+
+---
+
+## 🧪 Security
+
+🔒 The mod has been reviewed by NexusMods and passed virus scans.
+
+- 🪟 [Windows – VirusTotal](https://www.virustotal.com/gui/file/15f88bc831007541e83e21515531200ab768ed606cab21a5c9aab5ab225d9ef1?nocache=1)  
+- 🐧 [Linux – VirusTotal](https://www.virustotal.com/gui/file/075810940c7f97a9650319b43d33537832da445b9bd10a49a17b26a31f68e064)
+
+✅ It is safe.
+
+
  
 
-🪟 Windows – VirusTotal
-
-🐧 Linux – VirusTotal
-
-✅ Safe to use.
 
