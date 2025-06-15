@@ -44,37 +44,7 @@ Kendi silahlarını detaylı şekilde oluşturabilir, düzenleyebilir ve oyununa
 ✅ Güvenlidir.
 🌾 Stardew Sword Master – Sword Crafting Center
 🛡️ "Craft your own sword, protect your village, become a legend!"
-
-🇬🇧 English – About
-🧙‍♂️ Developer: FarmerDev
-🌐 NexusMods Page
-🔐 VirusTotal Reports
-
-Stardew Sword Master is a standalone sword crafting center developed for Stardew Valley.
-You can design, customize, and integrate your own weapons into the game with ease!
-
-🧰 Features
-⚔️ Create and customize swords
-
-🖼️ Visual preview (16x16 px check system)
-
-📦 Auto-generation of content.json and manifest.json
-
-🧪 Test panel with error warning system
-
-🚨 Detection of missing or invalid data
-
-💾 Installation
-Make sure SMAPI is installed.
-
-Download and run the program.
-
-Craft your sword and place the files in the StardewValley/Mods folder.
-
-Launch the game and test it out!
-
-🧪 Security
-🔒 This mod has been reviewed by NexusMods and scanned for viruses.
+ 
 
 🪟 Windows – VirusTotal
 
