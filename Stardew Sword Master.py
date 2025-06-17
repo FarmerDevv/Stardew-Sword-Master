@@ -16,7 +16,7 @@ from PyQt5.QtGui import QGuiApplication, QPixmap
 class StardewWeaponEditor(QWidget):
     def __init__(self):
         super().__init__()
-
+        
         screen = QGuiApplication.primaryScreen()
         screen_size = screen.size()
         width = int(screen_size.width() * 0.9)
@@ -33,16 +33,244 @@ class StardewWeaponEditor(QWidget):
         main_layout = QHBoxLayout()
 
         self.tabs = QTabWidget()
-        self.tabs.addTab(self.create_content_tab(), "Content")
+        self.tabs.addTab(self.create_content_tab(), "İçerik")
         self.tabs.addTab(self.create_manifest_tab(), "Manifest")
-        self.tabs.addTab(self.create_preview_tab(), "Preview")
-        self.tabs.addTab(self.create_my_library_tab(), "My Library")
+        self.tabs.addTab(self.create_preview_tab(), "Önizleme")
+        self.tabs.addTab(self.create_my_library_tab(), "Kütüphanem")
+        self.tabs.addTab(self.create_usage_tab(), "Kullanım Kılavuzu")
         self.tabs.addTab(self.create_about_tab(), "Hakkında")
 
         main_layout.addWidget(self.tabs)
         self.setLayout(main_layout)
 
         self.tabs.currentChanged.connect(self.on_tab_changed)
+    
+    def create_usage_tab(self):
+        usage_widget = QWidget()
+        layout = QVBoxLayout()
+    
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll_content = QWidget()
+        scroll_layout = QVBoxLayout()
+    
+        usage_text = QLabel(
+        "<b style='color: #ff9900;'>"
+        "🎯 STARDEW VALLEY SWORD MASTER - KULLANIM KILAVUZU<br><br>"
+        
+        "📋 GENEL BİLGİLER<br>"
+        "Bu program Stardew Valley için özel silah modları oluşturmanızı sağlar.<br>"
+        "Content Patcher modunu kullanarak otomatik olarak JSON dosyaları ve ZIP arşivi oluşturur.<br>"
+        "Hiçbir teknik bilgiye ihtiyaç duymadan profesyonel modlar yapabilirsiniz.<br><br>"
+        
+        "🗡️ 1. İÇERİK SEKMESİ - SİLAH AYARLARI<br><br>"
+        
+        "🆔 Silah ID:<br>"
+        "- Silahınızın benzersiz kimlik numarası<br>"
+        "- Sadece rakamlar kullanın<br>"
+        "- Boş bırakılamaz ve başka modlarla çakışmamalı<br><br>"
+        
+        " İsim ve Açıklama:<br>"
+        "- İsim: Oyunda envanterde görünecek silah adı<br>"
+        "- Açıklama: Silahın özelliklerini anlatan kısa metin<br>"
+        "- Türkçe karakter kullanabilirsiniz<br>"
+        "- Geçersiz karakterler: < > : \" | ? * / \\<br><br>"
+        
+        "⚔️ HASAR AYARLARI:<br><br>"
+        
+        " Min/Max Damage:<br>"
+        "- Minimum Hasar: En az kaç hasar verecek (1-9999)<br>"
+        "- Maksimum Hasar: En fazla kaç hasar verecek (1-9999)<br>"
+        "- Oyun bu iki değer arasında rastgele hasar hesaplar<br>"
+        "- Örnek: Min=15, Max=25 → 15-25 arası hasar<br><br>"
+        
+        " Knockback (Darbe Kuvveti):<br>"
+        "- Düşmanları ne kadar geriye itersiniz<br>"
+        "- 0 = Hiç itmiyor, 10+ = Çok güçlü itme<br>"
+        "- Önerilen: 3-8 arası dengeli değerler<br><br>"
+        
+        "⚡ Speed (Hız):<br>"
+        "- Silahla ne kadar hızlı saldırabilirsiniz<br>"
+        "- Yüksek değer = Daha hızlı saldırı<br>"
+        "- 0-10 arası değerler önerilir<br><br>"
+        
+        " Precision (Hassasiyet):<br>"
+        "- Vuruşlarınızın ne kadar isabetli olduğu<br>"
+        "- Yüksek değer = Daha az ıskalama<br>"
+        "- 0-10 arası, 5+ önerilir<br><br>"
+        
+        "🛡️ Defense (Savunma):<br>"
+        "- Silahı tutarken size ek savunma bonusu<br>"
+        "- Genelde 0-5 arası değerler kullanılır<br>"
+        "- Çoğu silah için 0 bırakılabilir<br><br>"
+        
+        " Kritik Ayarları:<br>"
+        "- Crit Chance: Kritik vuruş şansı (0.00-1.00)<br>"
+        "- 0.05 = %5 şans, 0.10 = %10 şans<br>"
+        "- Crit Multiplier: Kritik vurursa hasarı kaçla çarpar<br>"
+        "- Örnek: Multiplier=3 → Kritik vuruşta 3x hasar<br><br>"
+        
+        " Area Of Effect (Etki Alanı):<br>"
+        "- Tek vuruşta kaç karelik alan etkiler<br>"
+        "- 0 = Sadece 1 kare, 1 = 3x3 alan, 2 = 5x5 alan<br>"
+        "- Yüksek değerler çok güçlü silahlar yapar<br><br>"
+        
+        "⛏️ Mine Level (Madencilik Seviyesi):<br>"
+        "- Silahın hangi maden katından bulunacağı<br>"
+        "- mağaza satışı aktif<br>"
+        
+        "🖼️ 2. RESİM AYARLARI<br><br>"
+        
+        " Boyut Kuralları:<br>"
+        "- Kesinlikle 16x16 piksel olmalı<br>"
+        "- Daha büyük veya küçük resimler kabul edilmez<br>"
+        "- Stardew Valley'in piksel sanatı stiline uygun olmalı<br><br>"
+        
+        " Format Kuralları:<br>"
+        "- Desteklenen formatlar: PNG, JPG, JPEG<br>"
+        "- PNG önerilir (şeffaflık desteği)<br>"
+        "- Dosya boyutu küçük olmalı<br><br>"
+        
+        " Texture Path:<br>"
+        "- Otomatik olarak Assets/resim_adı.png şeklinde ayarlanır<br>"
+        "- Manuel değiştirmeyin, program otomatik halleder<br><br>"
+        
+        " 3. MAĞAZA AYARLARI<br><br>"
+        
+        "💰 Fiyat:<br>"
+        "- Silahın mağazadaki fiyatı (Gold cinsinden)<br>"
+        "- Dengeli fiyatlar: 100-5000 arası<br>"
+        "- Çok güçlü silahlar için daha yüksek fiyat<br><br>"
+        
+        " 4. MANİFEST SEKMESİ - MOD BİLGİLERİ<br><br>"
+        
+        "📋 Temel Bilgiler:<br>"
+        "- Mod Adı: Modunuzun görünen ismi<br>"
+        "- Yazar: Sizin adınız<br>"
+        "- Versiyon: 1.0.0 formatında<br>"
+        "- Açıklama: Mod hakkında kısa bilgi<br><br>"
+        
+        "🆔 Unique ID:<br>"
+        "- Format: YazarAdı.ModAdı<br>"
+        "- Örnek: FarmerDev.SuperSword<br>"
+        "- Boşluk ve Türkçe karakter kullanmayın<br>"
+        "- Bu ID eşsiz olmalı<br><br>"
+        
+        " Teknik Ayarlar:<br>"
+        "- Minimum API: 3.0.0 (değiştirmeyin)<br>"
+        "- ContentPackFor: Pathoschild.ContentPatcher (değiştirmeyin)<br><br>"
+        
+        "👁️ 5. ÖNİZLEME SEKMESİ<br><br>"
+        
+        "📊 Özellik Listesi:<br>"
+        "- Girdiğiniz tüm değerleri gösterir<br>"
+        "- Mod oluşturmadan önce kontrol edin<br>"
+        "- Hatalı değerleri burada fark edebilirsiniz<br><br>"
+        
+        "🖼️ Resim Önizleme:<br>"
+        "- Seçtiğiniz resmi gösterir<br>"
+        "- Boyut kontrolü yapılır<br>"
+        "- Resim yüklenmediyse uyarı verir<br><br>"
+        
+        "📚 6. KÜTÜPHANEİM SEKMESİ<br><br>"
+        
+        " Geçmiş Modlar:<br>"
+        "- Daha önce oluşturduğunuz modları listeler<br>"
+        "- Mod adı ve oluşturma tarihini gösterir<br>"
+        "- JSON dosyasında saklanır<br><br>"
+        
+        " Yenile Butonu:<br>"
+        "- Kütüphane listesini günceller<br>"
+        "- Yeni modları görmek için kullanın<br><br>"
+        
+        "🗑️ Temizle Butonu:<br>"
+        "- Tüm mod geçmişini siler<br>"
+        "- Onay sorar, dikkatli kullanın<br><br>"
+        
+        "⚙️ 7. MOD OLUŞTURMA SÜRECİ<br><br>"
+        
+        " Doğrulama Kontrolleri:<br>"
+        "- Tüm zorunlu alanlar dolu mu?<br>"
+        "- Geçersiz karakterler var mı?<br>"
+        "- Resim boyutu doğru mu?<br>"
+        "- Yazma izni var mı?<br><br>"
+        
+        "📁 Oluşturulan Dosyalar:<br>"
+        "- content.json: Silah özelliklerini içerir<br>"
+        "- manifest.json: Mod bilgilerini içerir<br>"
+        "- Assets/resim.png: Silah görseli<br>"
+        "- ModAdı.zip: Kuruluma hazır ZIP dosyası<br><br>"
+        
+        "🎮 8. OYUNA YÜKLEME<br><br>"
+        
+        "📋 Gereksinimler:<br>"
+        "- SMAPI (Stardew Modding API) kurulu olmalı<br>"
+        "- Content Patcher modu kurulu olmalı<br>"
+        "- Stardew Valley güncel sürümde olmalı<br><br>"
+        
+        " Kurulum Adımları:<br>"
+        "1. Oluşturulan ZIP dosyasını çıkarın<br>"
+        "2. Mod klasörünü Stardew Valley/Mods/ içine kopyalayın<br>"
+        "3. Oyunu SMAPI ile başlatın<br>"
+        "4. Marlon'un dükkanından silahı satın alın<br><br>"
+        
+        " 9. SORUN GİDERME<br><br>"
+        
+        " Sık Karşılaşılan Hatalar:<br>"
+        "- Resim boyutu hatalı: Tam 16x16 piksel kullanın<br>"
+        "- Geçersiz karakterler: Özel karakterleri kaldırın<br>"
+        "- Boş alanlar: Tüm zorunlu alanları doldurun<br>"
+        "- Unique ID çakışması: Eşsiz ID kullanın<br><br>"
+        
+        " Performans İpuçları:<br>"
+        "- Çok yüksek hasar değerleri oyunu bozabilir<br>"
+        "- Area Of Effect değerini dikkatli ayarlayın<br>"
+        "- Kritik şansı 0.50'den fazla yapmayın<br>"
+        "- Makul fiyatlar belirlein<br><br>"
+        
+        " 10. İLERİ SEVİYE İPUÇLARI<br><br>"
+        
+        "  Görsel Öneriler:<br>"
+        "- Piksel sanatı editörleri kullanın (Aseprite, Piskel)<br>"
+        "- Stardew Valley'in renk paletini kullanın<br>"
+        "- Basit ve net tasarımlar tercih edin<br>"
+        "- Diğer silahlarla uyumlu stil benimseyin<br><br>"
+        
+        "⚖️ Denge Önerileri:<br>"
+        "- Erken oyun silahları: 5-15 hasar<br>"
+        "- Orta oyun silahları: 15-35 hasar<br>"
+        "- Geç oyun silahları: 35-60 hasar<br>"
+        "- Efsanevi silahlar: 60-100 hasar<br><br>"
+        
+        "Güncelleme:<br>"
+        "- Manifest.json'da versiyonu artırın<br>"
+        "- Yeni özellikler eklerken dikkatli olun<br>"
+        "- Geriye uyumluluk düşünün<br><br>"
+        
+        "SONUÇ<br><br>"
+        "Bu program ile Stardew Valley'e kendi silahlarınızı kolayca ekleyebilirsiniz.<br>"
+        "Yaratıcılığınızı konuşturun ve eşsiz silahlar tasarlayın!<br>"
+        "Unutmayın: En iyi modlar, dengeli ve eğlenceli olanlardır.<br><br>"
+        
+        "Haydi başlayın ve kendi silah efsanenizi yazın! ⚔️✨"
+        "</b>"
+    )
+        usage_text.setWordWrap(True)
+        usage_text.setAlignment(Qt.AlignTop)
+        usage_text.setStyleSheet("font-size: 12px; padding: 15px; color: #ff9900; line-height: 1.4;")
+    
+        scroll_layout.addWidget(usage_text)
+        scroll_content.setLayout(scroll_layout)
+        scroll.setWidget(scroll_content)
+        layout.addWidget(scroll)
+    
+        usage_widget.setLayout(layout)
+        return usage_widget  
+
+
+
+
+
 
     def create_content_tab(self):
         content_widget = QWidget()
@@ -54,7 +282,7 @@ class StardewWeaponEditor(QWidget):
         scroll_layout = QFormLayout()
 
         self.weapon_id = QLineEdit()
-        self.weapon_id.setPlaceholderText("Örn: samuray_bıçağı (boş bırakma!)")
+        self.weapon_id.setPlaceholderText("Örn: 11,2,10 boş bırakma!")
         scroll_layout.addRow(QLabel("Silah ID:"), self.weapon_id)
 
         self.weapon_name = QLineEdit()
@@ -69,79 +297,79 @@ class StardewWeaponEditor(QWidget):
         self.min_damage.setMaximum(9999)
         self.min_damage.setValue(1)
         self.min_damage.setToolTip("Minimum hasar değeri")
-        scroll_layout.addRow(QLabel("Min Damage:"), self.min_damage)
+        scroll_layout.addRow(QLabel("Minimum hasar değeri:"), self.min_damage)
 
         self.max_damage = QSpinBox()
         self.max_damage.setMaximum(9999)
         self.max_damage.setValue(1)
         self.max_damage.setToolTip("Maksimum hasar değeri")
-        scroll_layout.addRow(QLabel("Max Damage:"), self.max_damage)
+        scroll_layout.addRow(QLabel("Maksimum hasar değeri:"), self.max_damage)
 
         self.knockback = QSpinBox()
         self.knockback.setMaximum(9999)
         self.knockback.setValue(1)
         self.knockback.setToolTip("Darbe kuvveti")
-        scroll_layout.addRow(QLabel("Knockback:"), self.knockback)
+        scroll_layout.addRow(QLabel("Darbe kuvveti:"), self.knockback)
 
         self.speed = QSpinBox()
         self.speed.setMaximum(9999)
         self.speed.setValue(1)
         self.speed.setToolTip("Silah hızı")
-        scroll_layout.addRow(QLabel("Speed:"), self.speed)
+        scroll_layout.addRow(QLabel("Silah hızı:"), self.speed)
 
         self.precision = QSpinBox()
         self.precision.setMaximum(9999)
         self.precision.setValue(1)
         self.precision.setToolTip("Hassasiyet")
-        scroll_layout.addRow(QLabel("Precision:"), self.precision)
+        scroll_layout.addRow(QLabel("Hassasiyet:"), self.precision)
 
         self.defense = QSpinBox()
         self.defense.setMaximum(9999)
         self.defense.setValue(0)
         self.defense.setToolTip("Savunma değeri")
-        scroll_layout.addRow(QLabel("Defense:"), self.defense)
+        scroll_layout.addRow(QLabel("Savunma değeri:"), self.defense)
 
         self.crit_chance = QDoubleSpinBox()
         self.crit_chance.setRange(0, 1)
         self.crit_chance.setSingleStep(0.01)
         self.crit_chance.setValue(0.01)
         self.crit_chance.setToolTip("Kritik vuruş şansı (0-1 arası)")
-        scroll_layout.addRow(QLabel("Crit Chance:"), self.crit_chance)
+        scroll_layout.addRow(QLabel("Kritik vuruş şansı:"), self.crit_chance)
 
         self.crit_multiplier = QSpinBox()
         self.crit_multiplier.setMaximum(9999)
         self.crit_multiplier.setValue(1)
         self.crit_multiplier.setToolTip("Kritik hasar çarpanı")
-        scroll_layout.addRow(QLabel("Crit Multiplier:"), self.crit_multiplier)
+        scroll_layout.addRow(QLabel("Kritik hasar çarpanı (kombo gibi 1x 2x):"), self.crit_multiplier)
 
         self.area_of_effect = QSpinBox()
         self.area_of_effect.setMaximum(9999)
         self.area_of_effect.setValue(0)
         self.area_of_effect.setToolTip("Etki alanı")
-        scroll_layout.addRow(QLabel("Area Of Effect:"), self.area_of_effect)
+        scroll_layout.addRow(QLabel("Etki alanı:"), self.area_of_effect)
 
         self.mine_level = QSpinBox()
         self.mine_level.setMaximum(9999)
         self.mine_level.setValue(0)
-        self.mine_level.setToolTip("Madencilik seviyesi")
-        scroll_layout.addRow(QLabel("Mine Level:"), self.mine_level)
+        self.mine_level.setToolTip("Madende bulunabilecek seviye")
+        scroll_layout.addRow(QLabel("Madende bulunabilecek seviye (sadece burda):"), self.mine_level)
 
-        self.projectiles_null = QCheckBox("Projectiles: null")
+        self.projectiles_null = QCheckBox("Mermiler: boş 'tıklarsan açılır'")
         scroll_layout.addRow(self.projectiles_null)
 
-        self.custom_fields_null = QCheckBox("CustomFields: null")
+        self.custom_fields_null = QCheckBox("Özel alan: boş 'tıklarsan açılır'")
         scroll_layout.addRow(self.custom_fields_null)
 
         self.texture_path = QLineEdit()
-        self.texture_path.setPlaceholderText("Örn: Assets/gun.png")
-        scroll_layout.addRow(QLabel("Texture (örnek: Assets/gun.png):"), self.texture_path)
+        self.texture_path.setPlaceholderText("Örn: sword.png")
+        scroll_layout.addRow(QLabel("Texture (örnek: sword.png):"), self.texture_path)
 
         self.image_button = QPushButton("Resim Seç")
         self.image_button.clicked.connect(self.select_image)
         scroll_layout.addRow(self.image_button)
 
         self.shop_id = QLineEdit()
-        self.shop_id.setPlaceholderText("Örn: AdventureShop")
+        self.shop_id.setPlaceholderText("Örn: 21 (baştaki id ile aynı yapın)")
         scroll_layout.addRow(QLabel("Shop ID:"), self.shop_id)
 
         self.shop_price = QSpinBox()
@@ -150,11 +378,7 @@ class StardewWeaponEditor(QWidget):
         self.shop_price.setToolTip("Silahın mağaza fiyatı")
         scroll_layout.addRow(QLabel("Fiyat:"), self.shop_price)
 
-        self.shop_condition = QLineEdit()
-        self.shop_condition.setPlaceholderText("Örn: DAY_OF_WEEK Monday")
-        scroll_layout.addRow(QLabel("Koşul (örn: DAY_OF_WEEK Monday):"), self.shop_condition)
-
-        self.generate_button = QPushButton("🔄 Modu Oluştur")
+        self.generate_button = QPushButton("Modu Oluştur")
         self.generate_button.clicked.connect(self.generate_mod)
         scroll_layout.addRow(self.generate_button)
 
@@ -164,6 +388,8 @@ class StardewWeaponEditor(QWidget):
 
         content_widget.setLayout(layout)
         return content_widget
+    
+    
 
     def create_manifest_tab(self):
         manifest_widget = QWidget()
@@ -219,7 +445,7 @@ class StardewWeaponEditor(QWidget):
 
         preview_widget.setLayout(layout)
         return preview_widget
-
+    
     def create_my_library_tab(self):
         library_widget = QWidget()
         layout = QVBoxLayout()
@@ -253,12 +479,12 @@ class StardewWeaponEditor(QWidget):
 
         button_layout = QHBoxLayout()
 
-        refresh_button = QPushButton("🔄 Yenile")
+        refresh_button = QPushButton("Yenile")
         refresh_button.clicked.connect(self.load_library)
         refresh_button.setStyleSheet("padding: 8px; font-size: 12px;")
         button_layout.addWidget(refresh_button)
 
-        clear_button = QPushButton("🗑️ Temizle")
+        clear_button = QPushButton("Temizle")
         clear_button.clicked.connect(self.clear_library)
         clear_button.setStyleSheet("padding: 8px; font-size: 12px;")
         button_layout.addWidget(clear_button)
@@ -272,28 +498,68 @@ class StardewWeaponEditor(QWidget):
         about_widget = QWidget()
         layout = QVBoxLayout()
 
-        about_text = QLabel(
-            "<b>"
-            "Merhaba dostum, ben FarmerDev!\n\n"
-            "Stardew Valley benim için bir tutkudan fazlası, adeta bir yaşam tarzı.\n"
-            "Bu eşsiz oyunu desteklemek için <i>çok kolay bir kılıç modu yapım aracı</i> geliştirdim.\n\n"
-            "Bu aracı kullanarak istediğin gibi modlar üretebilirsin. Unutma: tüm modlar senin eserindir.\n\n"
-            "Tek ricam; Stardew Valley'i sevin, sevdirin. Bana bu yeter.\n\n"
-            "Bol modlu, yaratıcı günler!"
-            "</b>"
-        )
-        about_text.setWordWrap(True)
-        about_text.setAlignment(Qt.AlignTop)
-        about_text.setStyleSheet("font-size: 13px; padding: 10px; color: #ff9900;")
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setStyleSheet("border: none;")
 
-        layout.addWidget(about_text)
+        inner_widget = QWidget()
+        inner_layout = QVBoxLayout()
+
+        about_text = QLabel(
+        "<div style='font-family: Consolas, monospace;'>"
+        "<h2 style='text-align: center; color: #FFD700;'> FarmerDev'ten Mesaj </h2>"
+        "<p><b>"
+        "Merhaba dostum, ben <span style='color:#ffcc00;'>FarmerDev</span>!<br><br>"
+        "Stardew Valley benim için yalnızca bir oyun değil, aynı zamanda bir kaçış, bir tutku, bir yaşam biçimi.<br>"
+        "Bu eşsiz dünyanın büyüsüne kapıldıktan sonra, topluluğa katkı sağlamak istedim.<br><br>"
+        "Bu yüzden <i>kendi kılıç modunu kolayca oluşturabileceğin</i> bir araç geliştirdim. "
+        "Her bir oyuncunun kendi dünyasını şekillendirmesi için bu aracı seninle paylaşıyorum.<br><br>"
+        "Unutma: ürettiğin her mod, senin kişisel dokunuşundur. Her satırda, her silahın keskinliğinde sen varsın.<br><br>"
+        "Tek ricam, Stardew Valley'i <span style='color:#66ff66;'>sevin</span>, <span style='color:#66ff66;'>sevdirin</span>. "
+        "Paylaştıkça büyürüz. Ürettikçe çoğalırız.<br><br>"
+        " <i>Bol modlu, yaratıcı ve ilham dolu günler diliyorum!</i> "
+        "</b></p><br>"
+
+        "<hr><p style='text-align: center;'>"
+        " <a href='https://next.nexusmods.com/profile/FarmerDev' style='color:#00acee;'>Nexus Mod Sayfam</a> | "
+        "<a href='https://github.com/FarmerDevv' style='color:#6cc644;'>GitHub Projelerim</a>"
+        "</p></div>"
+    )
+        about_text.setWordWrap(True)
+        about_text.setOpenExternalLinks(True)
+        about_text.setAlignment(Qt.AlignTop)
+        about_text.setStyleSheet("""
+        QLabel {
+            font-size: 14px;
+            padding: 20px;
+            color: #ffeaa7;
+            background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                                              stop:0 #2c3e50, stop:1 #34495e);
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+        }
+        a {
+            text-decoration: none;
+            font-weight: bold;
+        }
+    """)
+
+        inner_layout.addWidget(about_text)
+        inner_widget.setLayout(inner_layout)
+        scroll_area.setWidget(inner_widget)
+
+        layout.addWidget(scroll_area)
         about_widget.setLayout(layout)
         return about_widget
 
+
+
+
+
     def on_tab_changed(self, index):
-        if self.tabs.tabText(index) == "Preview":
+        if self.tabs.tabText(index) == "Önizleme":
             self.update_preview()
-        elif self.tabs.tabText(index) == "My Library":
+        elif self.tabs.tabText(index) == "Kütüphanem":
             self.load_library()
 
     def update_preview(self):
@@ -301,21 +567,20 @@ class StardewWeaponEditor(QWidget):
             f"ID: {self.weapon_id.text()}",
             f"İsim: {self.weapon_name.text()}",
             f"Açıklama: {self.weapon_desc.text()}",
-            f"Min Damage: {self.min_damage.value()}",
-            f"Max Damage: {self.max_damage.value()}",
-            f"Knockback: {self.knockback.value()}",
-            f"Speed: {self.speed.value()}",
-            f"Precision: {self.precision.value()}",
-            f"Defense: {self.defense.value()}",
-            f"Crit Chance: {self.crit_chance.value()}",
-            f"Crit Multiplier: {self.crit_multiplier.value()}",
+            f"Minimum hasar: {self.min_damage.value()}",
+            f"Maksimum hasar: {self.max_damage.value()}",
+            f"darbe kuvveti: {self.knockback.value()}",
+            f"Silah hızı: {self.speed.value()}",
+            f"Hassasiyet: {self.precision.value()}",
+            f"Savunma: {self.defense.value()}",
+            f"Kritik vuruş şansı: {self.crit_chance.value()}",
+            f"Kritik Hasar tekrarı: {self.crit_multiplier.value()}",
             f"Area Of Effect: {self.area_of_effect.value()}",
-            f"Mine Level: {self.mine_level.value()}",
-            f"Projectiles Null: {self.projectiles_null.isChecked()}",
-            f"CustomFields Null: {self.custom_fields_null.isChecked()}",
-            f"Shop ID: {self.shop_id.text()}",
-            f"Shop Price: {self.shop_price.value()}",
-            f"Shop Condition: {self.shop_condition.text()}"
+            f"Maden seviyesi: {self.mine_level.value()}",
+            f"Mermiler: {self.projectiles_null.isChecked()}",
+            f"Özel alan: {self.custom_fields_null.isChecked()}",
+            f"Market ID: {self.shop_id.text()}",
+            f"Market Fiyatı: {self.shop_price.value()}",
         ]
 
         self.preview_text.setText("\n".join(lines))
@@ -507,9 +772,6 @@ class StardewWeaponEditor(QWidget):
             QMessageBox.warning(self, "Hata", error_msg)
             return
 
-        if not self.shop_condition.text().strip():
-            QMessageBox.warning(self, "Hata", "Shop koşulu boş olamaz!")
-            return
 
         # Manifest Tab Validasyonu
         if not self.manifest_name.text().strip():
@@ -583,7 +845,7 @@ class StardewWeaponEditor(QWidget):
             "Precision": self.precision.value(),
             "Defense": self.defense.value(),
             "Type": 3,
-            "MineBaseLevel": -1,
+            "MineBaseLevel": self.mine_level.value(),  
             "MineMinLevel": self.mine_level.value(),
             "AreaOfEffect": self.area_of_effect.value(),
             "CritChance": self.crit_chance.value(),
@@ -619,7 +881,6 @@ class StardewWeaponEditor(QWidget):
                     "Id": weapon_id,
                     "ItemId": weapon_id,
                     "Price": self.shop_price.value(),
-                    "Condition": self.shop_condition.text()
                 }
             }
         }
@@ -669,7 +930,7 @@ class StardewWeaponEditor(QWidget):
 
         except Exception as e:
             QMessageBox.critical(self, "Hata", f"Mod oluşturulurken hata: {str(e)}")
-
+   
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = StardewWeaponEditor()
