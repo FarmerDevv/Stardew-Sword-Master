@@ -12,7 +12,6 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QGuiApplication, QPixmap
-
 class StardewWeaponEditor(QWidget):
     def __init__(self):
         super().__init__()
@@ -28,7 +27,7 @@ class StardewWeaponEditor(QWidget):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowMaximizeButtonHint)
 
         self.image_path = ""
-        self.library_file = "mod_library.json"
+        self.library_file = "Data/mod_library.json"
 
         main_layout = QHBoxLayout()
 
@@ -44,7 +43,6 @@ class StardewWeaponEditor(QWidget):
         self.setLayout(main_layout)
 
         self.tabs.currentChanged.connect(self.on_tab_changed)
-    
     def create_usage_tab(self):
         usage_widget = QWidget()
         layout = QVBoxLayout()
